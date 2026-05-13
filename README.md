@@ -122,3 +122,25 @@
      console.log(`${req.method} ${req.path} - ${new Date().toISOString()}`);
      next(); // 繼續往下走
     });
+
+
+# 專案結構建議
+
+    my-express-app/
+    ├── .env
+    ├── app.js
+    ├── package.json
+    ├── src/
+    │   ├── config/
+    │   │   ├── db.js          # 資料庫連線設定
+    │   │   └── env.js         # 環境變數載入
+    │   ├── models/
+    │   │   ├── User.js        # MongoDB 模型
+    │   │   └── index.js       # 模型匯出
+    │   ├── controllers/
+    │   │   └── userController.js
+    │   ├── routes/
+    │   │   └── userRoutes.js
+    │   └── middleware/
+    │       └── errorHandler.js
+    └── tests/
