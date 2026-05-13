@@ -12,8 +12,8 @@ const pool = mysql.createPool({
 });
 
 // 輔助函數：取得 QueryBuilder 實例
-function table(tableName) {
+function query(tableName) {
     return new QueryBuilder(tableName, pool);
 }
 
-module.exports = { pool, table };
+module.exports = { pool, query };
