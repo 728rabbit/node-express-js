@@ -5,7 +5,7 @@
     bash
     mkdir my-api
     cd my-api
-    npm init -y
+    npm init -y   // create json file
     npm install express
 
 ## 第 2 步：建立第一個伺服器
