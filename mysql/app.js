@@ -1,19 +1,19 @@
 // 實際使用 app.js
-const { table } = require('./db');
+const { db_query } = require('./db');
 
 // ========== 基本查詢 ==========
 // SELECT * FROM users WHERE age > 18
-const users = await table('users')
+const users = await db_query('users')
     .where('age', '>', 18)
     .get();
 
 // ========== 取得第一筆 ==========
-const user = await table('users')
+const user = await db_query('users')
     .where('email', 'john@example.com')
     .first();
 
 // ========== 指定欄位 + 排序 + 限制 ==========
-const activeUsers = await table('users')
+const activeUsers = await db_query('users')
     .select('id', 'name', 'email')
     .where('status', 'active')
     .orderBy('created_at', 'DESC')
@@ -21,7 +21,7 @@ const activeUsers = await table('users')
     .get();
 
 // ========== JOIN 查詢 ==========
-const ordersWithUsers = await table('orders')
+const ordersWithUsers = await db_query('orders')
     .select('orders.*', 'users.name as user_name')
     .join('users', 'orders.user_id', '=', 'users.id')
     .where('orders.status', 'completed')
@@ -29,18 +29,18 @@ const ordersWithUsers = await table('orders')
     .get();
 
 // ========== WHERE IN ==========
-const vipUsers = await table('users')
+const vipUsers = await db_query('users')
     .whereIn('id', [1, 2, 3, 4, 5])
     .where('vip_level', '>', 1)
     .get();
 
 // ========== WHERE BETWEEN ==========
-const janOrders = await table('orders')
+const janOrders = await db_query('orders')
     .whereBetween('created_at', ['2024-01-01', '2024-01-31'])
     .get();
 
 // ========== GROUP BY + HAVING ==========
-const userPostStats = await table('posts')
+const userPostStats = await db_query('posts')
     .select('user_id', 'status', 'COUNT(*) as post_count')
     .where('status', 'published')
     .groupBy('user_id', 'status')
@@ -48,7 +48,7 @@ const userPostStats = await table('posts')
     .get();
 
 // ========== 分頁 ==========
-const result = await table('users')
+const result = await db_query('users')
     .where('status', 'active')
     .orderBy('created_at', 'DESC')
     .paginate(15, 2);  // 每頁15筆，第2頁
@@ -65,7 +65,7 @@ console.log(result.pagination);
 // }
 
 // ========== 新增 ==========
-const newUserId = await table('users')
+const newUserId = await db_query('users')
     .insertGetId({
         name: 'John Doe',
         email: 'john@example.com',
@@ -73,7 +73,7 @@ const newUserId = await table('users')
     });
 
 // ========== 更新 ==========
-const updatedCount = await table('users')
+const updatedCount = await db_query('users')
     .where('id', 1)
     .update({ 
         name: 'John Updated',
@@ -81,22 +81,22 @@ const updatedCount = await table('users')
     });
 
 // ========== 刪除 ==========
-const deletedCount = await table('users')
+const deletedCount = await db_query('users')
     .where('id', 999)
     .delete();
 
 // ========== 計數 ==========
-const activeCount = await table('users')
+const activeCount = await db_query('users')
     .where('status', 'active')
     .count();
 
 // ========== 檢查是否存在 ==========
-const hasVipUser = await table('users')
+const hasVipUser = await db_query('users')
     .where('vip_level', '>', 5)
     .exists();
 
 // ========== 串聯複雜查詢 ==========
-const complexReport = await table('orders as o')
+const complexReport = await db_query('orders as o')
     .select(
         'u.name as user_name',
         'u.member_level',
